@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>勤怠情報登録</title>
+</head>
+<body>
+    <h1 th:text="${message}">Hello from Thymeleaf!</h1>
+    <form th:action="@{/registration/register}" method="post">
+        <button type="submit">登録</button>
+    </form>
+    <button type="button" onclick="location.href='/registration/reference'">照会</button>
+    <button type="button" onclick="location.href='/logout'">ログアウト</button>
+</body>
+</html>
