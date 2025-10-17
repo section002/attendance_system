@@ -3,8 +3,8 @@ package jp.co.actec.attendance.controller;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class LoginController {
@@ -15,9 +15,9 @@ public class LoginController {
         return "login";
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
-   public String login(/*@RequestParam("username") String username,
-                       @RequestParam("password") String password,*/
+    @PostMapping("/login")
+   public String login(@RequestParam("username") String username,
+                       @RequestParam("password") String password,
                        Model model) {
        return "redirect:/registration";
     }
