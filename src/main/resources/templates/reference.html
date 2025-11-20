@@ -1,11 +1,102 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+
 <head>
-    <title>勤怠履歴参照</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link th:href="@{/css/header.css}" rel="stylesheet">
+    <link th:href="@{/css/reference.css}" rel="stylesheet" />
+    <title th:fragment="title">勤怠履歴参照</title>
 </head>
-<body>
-    <h1 th:text="${message}">Hello from Thymeleaf!</h1>
-    <button type="button" onclick="location.href='/reference/register'">登録</button>
-    <button type="button" onclick="location.href='/logout'">ログアウト</button>
+
+<body th:fragment="content">
+    <header th:replace="~{common/header :: header}"></header>
+
+    <div class="search-info-wrapper">
+        <div class="search-box">
+            <div class="search-title">検索条件</div>
+            <div class="search-grid">
+                <div class="search-item">
+                    <label>日付</label>
+                    <input type="text">
+                </div>
+                <div class="search-item">
+                    <label>路線</label>
+                    <input type="text">
+                </div>
+                <div class="search-item">
+                    <label>氏名</label>
+                    <input type="text">
+                </div>
+            </div>
+            <div class="search-actions">
+                <button class="btn-search">検索</button>
+            </div>
+        </div>
+
+        <!-- 情報カード -->
+        <div class="info-cards">
+            <div class="card">
+                <div class="card-title">遅刻者数</div>
+                <div class="card-value">12名</div>
+            </div>
+            <div class="card">
+                <div class="card-title">同一路線</div>
+                <div class="card-value warning">5名</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- テーブル -->
+    <div class="table-wrapper">
+        <table>
+            <thead>
+                <tr>
+                    <th>氏名</th>
+                    <th>路線</th>
+                    <th>出社時刻</th>
+                    <th>遅刻分数</th>
+                    <th>理由</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>山田太郎</td>
+                    <td>中央線</td>
+                    <td>09:15</td>
+                    <td>15分</td>
+                    <td>電車遅延</td>
+                </tr>
+                <tr>
+                    <td>山田太郎</td>
+                    <td>中央線</td>
+                    <td>09:15</td>
+                    <td>15分</td>
+                    <td>電車遅延</td>
+                </tr>
+                <tr>
+                    <td>山田太郎</td>
+                    <td>中央線</td>
+                    <td>09:15</td>
+                    <td>15分</td>
+                    <td>電車遅延</td>
+                </tr>
+                <tr>
+                    <td>山田太郎</td>
+                    <td>中央線</td>
+                    <td>09:15</td>
+                    <td>15分</td>
+                    <td>電車遅延</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <!-- 出力ボタン -->
+    <div class="export-buttons">
+        <button class="btn-csv">CSV出力</button>
+        <button class="btn-excel">Excel出力</button>
+    </div>
 </body>
+
 </html>
