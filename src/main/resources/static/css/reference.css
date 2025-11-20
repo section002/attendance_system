@@ -38,7 +38,7 @@ header {
 }
 
 .search-title {
-    font-size: 18px;
+    font-size: 16px;
     font-weight: bold;
     color: #333;
     border-left: 4px solid #2493e0;
@@ -168,7 +168,7 @@ thead {
 
 th,
 td {
-    padding: 14px;
+    padding: 8px;
     border-bottom: 1px solid #ddd;
     text-align: left;
 }

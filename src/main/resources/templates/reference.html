@@ -24,6 +24,16 @@
                     <label>路線</label>
                     <input type="text">
                 </div>
+            </div>
+            <div class="search-grid">
+                <div class="search-item">
+                    <label>ユニット</label>
+                    <input type="text">
+                </div>
+                <div class="search-item">
+                    <label>チーム</label>
+                    <input type="text">
+                </div>
                 <div class="search-item">
                     <label>氏名</label>
                     <input type="text">
@@ -34,7 +44,6 @@
             </div>
         </div>
 
-        <!-- 情報カード -->
         <div class="info-cards">
             <div class="card">
                 <div class="card-title">遅刻者数</div>
@@ -60,39 +69,19 @@
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>山田太郎</td>
-                    <td>中央線</td>
-                    <td>09:15</td>
-                    <td>15分</td>
-                    <td>電車遅延</td>
-                </tr>
-                <tr>
-                    <td>山田太郎</td>
-                    <td>中央線</td>
-                    <td>09:15</td>
-                    <td>15分</td>
-                    <td>電車遅延</td>
-                </tr>
-                <tr>
-                    <td>山田太郎</td>
-                    <td>中央線</td>
-                    <td>09:15</td>
-                    <td>15分</td>
-                    <td>電車遅延</td>
-                </tr>
-                <tr>
-                    <td>山田太郎</td>
-                    <td>中央線</td>
-                    <td>09:15</td>
-                    <td>15分</td>
-                    <td>電車遅延</td>
-                </tr>
+                <th:block th:each="i : ${#numbers.sequence(0,9)}">
+                    <tr>
+                        <td>山田太郎</td>
+                        <td>中央線</td>
+                        <td>09:15</td>
+                        <td>15分</td>
+                        <td>電車遅延</td>
+                    </tr>
+                </th:block>
             </tbody>
         </table>
     </div>
 
-    <!-- 出力ボタン -->
     <div class="export-buttons">
         <button class="btn-csv">CSV出力</button>
         <button class="btn-excel">Excel出力</button>
