@@ -1,33 +1,49 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
-<head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width,initial-scale=1" />
-    <title>勤怠連絡アプリ - ログイン</title>
-    <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css">
-</head>
-<body>
-    <div class="site-header" aria-hidden="true"></div>
-    <div class="page" role="main" aria-labelledby="appTitle">
-        <div class="card" aria-describedby="error">
-            <h1 id="appTitle" class="app-title">勤怠連絡アプリ</h1>
+<html
+    lang="ja"
+    layout:decorate="~{layout}"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+    <head>
+        <link th:href="@{/css/login.css}" rel="stylesheet" type="text/css" />
+    </head>
 
-            <form th:action="@{/login}" method="post" novalidate>
-                <div class="form-group">
-                    <label for="mailAdress">メールアドレス</label>
-                    <input type="text" id="mailAdress" name="mailAdress" placeholder="example@email.com" required
-                           th:value="${mailAdress}" autocomplete="mailAdress" />
-                </div>
+    <body layout:fragment="content">
+        <div class="page" role="main" aria-labelledby="appTitle">
+            <div class="card" aria-describedby="error">
+                <h1 id="appTitle" class="app-title">勤怠連絡アプリ</h1>
 
-                <div class="form-group">
-                    <label for="password">パスワード</label>
-                    <input type="password" id="password" name="password" placeholder="パスワードを入力" required autocomplete="current-password" />
-                </div>
-                <button type="submit" class="login-btn">ログイン</button>
-            </form>
+                <form th:action="@{/login}" method="post" novalidate>
+                    <div class="form-group">
+                        <label for="mailAdress">メールアドレス</label>
+                        <input
+                            type="text"
+                            id="mailAdress"
+                            name="mailAdress"
+                            placeholder="example@email.com"
+                            required
+                            th:value="${mailAdress}"
+                            autocomplete="mailAdress"
+                        />
+                    </div>
 
-            <p id="error" th:text="${error}" role="alert" aria-live="assertive"></p>
+                    <div class="form-group">
+                        <label for="password">パスワード</label>
+                        <input
+                            type="password"
+                            id="password"
+                            name="password"
+                            placeholder="パスワードを入力"
+                            required
+                            autocomplete="current-password"
+                        />
+                    </div>
+                    <button type="submit" class="login-btn">ログイン</button>
+                </form>
+
+                <p id="error" th:text="${error}" role="alert" aria-live="assertive"></p>
+            </div>
         </div>
-    </div>
-</body>
+    </body>
 </html>

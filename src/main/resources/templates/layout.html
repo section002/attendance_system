@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" lang="ja">
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width,initial-scale=1" />
+        <link th:href="@{/css/header.css}" rel="stylesheet" type="text/css" />
+        <title>Attendance</title>
+    </head>
+    <body>
+        <!-- Header -->
+        <header th:replace="~{commons/header :: header}"></header>
+
+        <!-- Main Content -->
+        <main layout:fragment="content"></main>
+    </body>
+</html>

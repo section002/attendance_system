@@ -1,52 +1,50 @@
 <!DOCTYPE html>
-<html lang="ja" xmlns:th="http://www.thymeleaf.org">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>勤怠連絡アプリ - 勤怠登録
-    </title>
-    <link th:href="@{/css/registration.css}" rel="stylesheet" type="text/css" />
-  </head>
-  <body>
-    <header>
-      <div class="title">勤怠連絡システム</div>
-    </header>
+<html
+    lang="ja"
+    layout:decorate="~{layout}"
+    xmlns:th="http://www.thymeleaf.org"
+    xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+>
+    <head>
+        <link th:href="@{/css/registration.css}" rel="stylesheet" type="text/css" />
+    </head>
 
-    <div class="wrapper">
-      <div class="card">
-        <div class="section-title">遅刻登録</div>
+    <body layout:fragment="content">
+        <div class="wrapper">
+            <div class="card">
+                <div class="section-title">遅刻登録</div>
 
-        <div class="form-grid">
-          <div class="form-group">
-            <label>遅延路線</label>
-            <input type="text" list="lineList" placeholder="例：中央線" />
-            <datalist id="lineList">
-              <option value="中央線"></option>
-              <option value="山手線"></option>
-              <option value="京浜東北線"></option>
-              <option value="埼京線"></option>
-              <option value="東西線"></option>
-              <option value="総武線"></option>
-            </datalist>
-          </div>
-          <div class="form-group">
-            <label>遅延時間</label>
-            <input type="text" placeholder="例：15分" />
-          </div>
-          <div class="form-group">
-            <label>出社時間</label>
-            <input type="time" />
-          </div>
-          <div class="form-group">
-            <label>遅刻理由</label>
-            <textarea placeholder="遅刻理由を入力"></textarea>
-          </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>遅延路線</label>
+                        <input type="text" list="lineList" placeholder="例：中央線" />
+                        <datalist id="lineList">
+                            <option value="中央線"></option>
+                            <option value="山手線"></option>
+                            <option value="京浜東北線"></option>
+                            <option value="埼京線"></option>
+                            <option value="東西線"></option>
+                            <option value="総武線"></option>
+                        </datalist>
+                    </div>
+                    <div class="form-group">
+                        <label>遅延時間</label>
+                        <input type="text" placeholder="例：15分" />
+                    </div>
+                    <div class="form-group">
+                        <label>出社時間</label>
+                        <input type="time" />
+                    </div>
+                    <div class="form-group">
+                        <label>遅刻理由</label>
+                        <textarea placeholder="遅刻理由を入力"></textarea>
+                    </div>
+                </div>
+
+                <div class="footer">
+                    <button class="btn btn-primary">登録</button>
+                </div>
+            </div>
         </div>
-
-        <div class="footer">
-          <button class="btn btn-primary">登録</button>
-        </div>
-      </div>
-    </div>
-  </body>
+    </body>
 </html>

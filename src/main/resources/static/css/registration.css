@@ -4,26 +4,6 @@ body {
   background-color: #f4f6f9;
 }
 
-/* ===== Header ===== */
-header {
-  background-color: #243447;
-  color: #fff;
-  height: 56px;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 0 24px;
-}
-
-header .title {
-  font-size: 18px;
-  font-weight: bold;
-}
-
-header .user {
-  font-size: 14px;
-}
-
 /* ===== Layout ===== */
 .wrapper {
   padding: 24px;
