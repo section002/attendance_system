@@ -1,0 +1,221 @@
+/* =====================
+   共通設定
+===================== */
+body {
+    margin: 0;
+    font-family: "Yu Gothic", sans-serif;
+    background: #f1f4f8;
+}
+
+header {
+    background: #243447;
+    color: #fff;
+    padding: 20px;
+    font-size: 20px;
+}
+
+/* =====================
+   検索ボックス & 情報カード
+===================== */
+.search-info-wrapper {
+    display: flex;
+    gap: 20px;
+    margin: 20px;
+    flex-wrap: wrap;
+}
+
+.search-box {
+    flex: 1 1 400px;
+    min-width: 280px;
+    background: #fff;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border: 1px solid #e5e5e5;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.search-title {
+    font-size: 16px;
+    font-weight: bold;
+    color: #333;
+    border-left: 4px solid #2493e0;
+    padding-left: 12px;
+    margin-bottom: 5px;
+}
+
+.search-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 15px 10px;
+}
+
+.search-item {
+    background: #f8f9fc;
+    padding: 10px 12px;
+    border-radius: 8px;
+    border: 1px solid #e0e4ee;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    transition: .2s;
+}
+
+.search-item:hover {
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    transform: translateY(-2px);
+}
+
+.search-item label {
+    font-weight: 600;
+    font-size: 12px;
+    color: #444;
+}
+
+.search-item input[type="text"] {
+    background: #fff;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    transition: .2s;
+    padding: 6px 10px;
+    font-size: 13px;
+}
+
+.search-item input[type="text"]:focus {
+    border-color: #2493e0;
+    box-shadow: 0 0 0 3px rgba(36, 147, 224, 0.18);
+    outline: none;
+}
+
+.search-actions {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.btn-search {
+    background: #2493e0;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.25s;
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+    padding: 8px 20px;
+}
+
+.btn-search:hover {
+    background: #1f7ec2;
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+.btn-search:active {
+    transform: translateY(0);
+    box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
+}
+
+.info-cards {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    flex: 0 0 auto;
+}
+
+.card {
+    flex: 1 1 150px;
+    min-width: 120px;
+    background: #fff;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.card-title {
+    color: #707070;
+    margin-bottom: 5px;
+}
+
+.card-value {
+    font-size: 28px;
+    color: #2374d0;
+}
+
+.card-value.warning {
+    color: #d06523;
+}
+
+/* =====================
+   テーブル
+===================== */
+.table-wrapper {
+    overflow-x: auto;
+    margin: 20px;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: #fff;
+    min-width: 600px;
+}
+
+thead {
+    background: #243447;
+    color: #fff;
+}
+
+th,
+td {
+    padding: 8px;
+    border-bottom: 1px solid #ddd;
+    text-align: left;
+}
+
+/* =====================
+   出力ボタン
+===================== */
+.export-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-end;
+    gap: 10px;
+    margin: 20px;
+}
+
+.btn-csv,
+.btn-excel {
+    background: #2ca55e;
+    padding: 12px 24px;
+    border-radius: 6px;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: 0.25s;
+}
+
+.btn-csv:hover,
+.btn-excel:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+}
+
+/* =====================
+   レスポンシブ
+===================== */
+@media (max-width: 768px) {
+    .search-info-wrapper {
+        flex-direction: column;
+    }
+
+    .info-cards {
+        flex-direction: row;
+        justify-content: flex-start;
+    }
+
+    .export-buttons {
+        flex-direction: column;
+        align-items: stretch;
+    }
+}
