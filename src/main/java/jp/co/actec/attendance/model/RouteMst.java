@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "ROUTE_MST")
+@Table(name = "ROUTE_MST", schema = "ATTENDANCE_SYSTEM")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

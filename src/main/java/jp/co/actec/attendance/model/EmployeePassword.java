@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
 
 @Entity
-@Table(name = "EMPLOYEE_PASSWORD")
+@Table(name = "EMPLOYEE_PASSWORD", schema = "ATTENDANCE_SYSTEM")
 @IdClass(EmployeePasswordId.class)
 @Data
 @NoArgsConstructor

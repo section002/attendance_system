@@ -1,20 +1,23 @@
 package jp.co.actec.attendance.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-
+import jp.co.actec.attendance.service.RouteService;
 
 @Controller
 @RequestMapping("/registration")
 public class RegistrationController {
-    
+    @Autowired
+    RouteService routeService;
+
     @GetMapping
-    public String showRegistrationForm(Model model) {
-        model.addAttribute("message", "登録画面");
+    public String registerAttendanceForm(Model model) {
+        System.out.println(routeService.findAllRoutes());
         return "registration";
     }
 
@@ -28,5 +31,3 @@ public class RegistrationController {
         return "redirect:/reference";
     }
 }
-    
-    
