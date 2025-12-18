@@ -1,0 +1,174 @@
+:root{
+    /* カラーパレット（画像に合わせた濃いネイビーブルー系） */
+    --page-bg-start: #f6f8fa;
+    --page-bg-end:   #fbfcfd;
+    --card-bg:       #ffffff;
+    --muted:         #6b7176;
+    --header-bg:     #22343f; /* 画面上部の濃いバー色（ボタンと合わせる） */
+    --primary:       #22343f; /* ボタン色をヘッダー色に合わせる */
+    --primary-dark:  #1b2b34;
+    --input-border:  #e2e8ea;
+    --focus-ring:    rgba(34,52,63,0.16);
+    --error:         #e63946;
+    --text:          #1f2933;
+}
+
+/* リセット・基本設定 */
+html,body{
+    height:100%;
+    margin:0;
+    font-family: "Hiragino Kaku Gothic ProN","Meiryo","Yu Gothic",system-ui,-apple-system,"Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    background: linear-gradient(180deg,var(--page-bg-start) 0%, var(--page-bg-end) 100%);
+    color:var(--text);
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+}
+
+/* 上部のバー（画像に合わせた幅・角丸） */
+.site-header {
+    height:52px;
+    background: var(--header-bg);
+    width:100%;
+    border-bottom-left-radius:8px;
+    border-bottom-right-radius:8px;
+    box-shadow: 0 2px 6px rgba(16,28,36,0.12);
+}
+
+/* ページ中央に配置するラッパー */
+.page {
+    min-height:calc(100% - 52px); /* ヘッダー分を除外 */
+    display:flex;
+    align-items:center;        /* 垂直中央 */
+    justify-content:center;    /* 水平中央 */
+    padding: 32px;             /* 小さい画面で内側余白を確保 */
+    box-sizing:border-box;
+}
+
+/* カード（コンテナ） */
+.card {
+    width:100%;
+    max-width:460px;
+    background:var(--card-bg);
+    border-radius:12px;
+    box-shadow: 0 12px 40px rgba(15,30,40,0.06);
+    padding:34px;
+    box-sizing:border-box;
+    border: 1px solid rgba(16,24,32,0.04);
+    position:relative;
+}
+
+/* アプリタイトル（中央） */
+.app-title{
+    margin:0 0 20px 0;
+    font-size:22px;
+    text-align:center;
+    font-weight:700;
+    color:var(--header-bg);
+    letter-spacing:0.2px;
+}
+
+/* フォームグループ */
+.form-group{
+    margin-bottom:16px;
+    display:flex;
+    flex-direction:column;
+}
+
+label{
+    font-size:13px;
+    color:var(--muted);
+    margin-bottom:8px;
+}
+
+/* 入力 */
+input[type="text"],
+input[type="password"]{
+    height:46px;
+    padding:0 14px;
+    border-radius:10px;
+    border:1px solid var(--input-border);
+    font-size:15px;
+    background:#fff;
+    box-sizing:border-box;
+    transition: box-shadow .18s ease, border-color .12s ease;
+}
+
+input::placeholder{ color:#c7ced0; }
+
+input:focus{
+    outline:none;
+    border-color:var(--primary-dark);
+    box-shadow:0 6px 18px var(--focus-ring);
+}
+
+/* ボタン（ヘッダー色に合わせる） */
+.login-btn{
+    width:100%;
+    height:48px;
+    margin-top:12px;
+    border-radius:10px;
+    border:none;
+    background: linear-gradient(180deg,var(--primary) 0%, var(--primary-dark) 100%);
+    color:#fff;
+    font-weight:700;
+    font-size:15px;
+    cursor:pointer;
+    box-shadow: 0 6px 18px rgba(16,32,40,0.12);
+    transition: transform .08s ease, box-shadow .12s ease, filter .08s ease;
+}
+
+.login-btn:hover{
+    transform: translateY(-1px);
+    filter:brightness(1.03);
+}
+
+.login-btn:active{
+    transform: translateY(0);
+    box-shadow: 0 4px 12px rgba(16,32,40,0.12);
+}
+
+/* 補助テキスト（通常） */
+.hint{
+    margin-top:12px;
+    font-size:13px;
+    color:var(--muted);
+    text-align:center;
+}
+
+/* エラーメッセージ（赤） */
+#error {
+    color: var(--error);
+    margin-top:15px;
+    font-size:14px;
+    text-align:center;
+    min-height:44px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    background: transparent;
+    padding: 0;
+    border-radius:8px;
+    border: none;
+    transition: background .12s ease, padding .12s ease, border .12s ease;
+}
+
+/* ヘッダーやフッター要素がある場合にカードを上寄せしたいときは以下 class を使う */
+.align-top { align-items: flex-start; }
+
+/* レスポンシブ調整 */
+@media (max-width:520px){
+    .page{
+        padding:18px;
+    }
+    .card{
+        padding:20px;
+        border-radius:10px;
+    }
+    .app-title{ font-size:18px; }
+    input[type="text"],
+    input[type="password"]{ height:44px; padding:0 12px; }
+    .login-btn{ height:46px; font-size:14px; }
+}
+
+/* 追加ユーティリティ（フォーム幅を狭めたいとき用） */
+.container-narrow { max-width:360px; margin:0 auto; }
