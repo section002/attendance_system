@@ -31,3 +31,6 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# ローカルの機密設定を無視
+/application-local.properties

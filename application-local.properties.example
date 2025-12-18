@@ -1,0 +1,4 @@
+spring.datasource.url=jdbc:postgresql://your-host.aivencloud.com:12345/attendance_db?sslmode=verify-full&sslrootcert=C:/certs/aiven-root.crt
+spring.datasource.username=attendance_user
+spring.datasource.password=ReplaceWithSecurePassword
+spring.datasource.driver-class-name=org.postgresql.Driver
