@@ -20,8 +20,8 @@
           <div class="section-title">遅刻登録</div>
           <div class="form-grid">
             <div class="form-group">
-              <label>遅延路線</label>
-              <select th:field="*{routeId}">
+              <label for="routeId">遅延路線</label>
+              <select id="routeId" th:field="*{routeId}">
                 <option value="">選択してください</option>
                 <option
                   th:each="route : ${routes}"
@@ -29,30 +29,62 @@
                   th:text="${route.routeName}"
                 ></option>
               </select>
+              <div
+                th:if="${#fields.hasErrors('routeId')}"
+                th:errors="*{routeId}"
+                class="errormessage"
+              ></div>
             </div>
 
             <div class="form-group">
-              <label>電車遅延時間</label>
+              <label for="trainDelayTime">電車遅延時間</label>
               <input
+                id="trainDelayTime"
                 type="text"
                 th:field="*{trainDelayTime}"
                 placeholder="例：15分"
               />
+              <div
+                th:if="${#fields.hasErrors('trainDelayTime')}"
+                th:errors="*{trainDelayTime}"
+                class="errormessage"
+              ></div>
             </div>
 
             <div class="form-group">
-              <label>遅刻時間</label>
+              <label for="lateTime">遅刻時間</label>
               <input
+                id="lateTime"
                 type="text"
                 th:field="*{lateTime}"
                 placeholder="例：30分"
               />
+              <div
+                th:if="${#fields.hasErrors('lateTime')}"
+                th:errors="*{lateTime}"
+                class="errormessage"
+              ></div>
             </div>
 
-            <!-- 遅刻理由をプルダウンで選択できるようにする -->
             <div class="form-group">
-              <label>遅刻理由</label>
-              <textarea placeholder="遅刻理由を入力"></textarea>
+              <label for="lateReason">遅刻理由</label>
+              <select id="lateReason" th:field="*{lateReason}">
+                <option value="">選択してください</option>
+                <option value="1">電車遅延</option>
+                <option value="2">寝坊</option>
+                <option value="3">通院</option>
+                <option value="99">その他</option>
+              </select>
+              <div
+                th:if="${#fields.hasErrors('lateReason')}"
+                th:errors="*{lateReason}"
+                class="errormessage"
+              ></div>
+            </div>
+
+            <div class="form-group full-width">
+              <label for="note">備考</label>
+              <textarea id="note" th:field="*{note}"></textarea>
             </div>
           </div>
 

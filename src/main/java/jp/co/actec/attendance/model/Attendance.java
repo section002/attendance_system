@@ -2,6 +2,8 @@ package jp.co.actec.attendance.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
@@ -20,14 +22,17 @@ import lombok.AllArgsConstructor;
 @AllArgsConstructor
 public class Attendance implements Serializable {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ATTENDANCE_ID", nullable = false)
     private Integer attendanceId;
 
-    @Column(name = "EMP_ID", length = 10, nullable = false, insertable = false, updatable = false)
-    private String empId;
+    @ManyToOne
+    @JoinColumn(name = "EMP_ID", referencedColumnName = "EMP_ID")
+    private EmployeeMst employee;
 
-    @Column(name = "ROUTE_ID", nullable = false, insertable = false, updatable = false)
-    private Integer routeId;
+    @ManyToOne
+    @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ROUTE_ID")
+    private RouteMst route;
 
     @Column(name = "DATE", nullable = false)
     private LocalDate date;
@@ -49,12 +54,4 @@ public class Attendance implements Serializable {
 
     @Column(name = "UPDATED_AT", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
-
-    @ManyToOne
-    @JoinColumn(name = "EMP_ID", referencedColumnName = "EMP_ID")
-    private EmployeeMst employee;
-
-    @ManyToOne
-    @JoinColumn(name = "ROUTE_ID", referencedColumnName = "ROUTE_ID")
-    private RouteMst route;
 }
