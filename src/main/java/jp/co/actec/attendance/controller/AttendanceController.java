@@ -53,8 +53,6 @@ public class AttendanceController {
         BindingResult bindingResult,
         Model model
     ) {
-        System.out.println(attendanceForm);
-
         if (bindingResult.hasErrors()) {
             return "registration";
         }
