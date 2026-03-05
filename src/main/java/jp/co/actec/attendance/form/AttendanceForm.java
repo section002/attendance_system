@@ -26,6 +26,8 @@ public class AttendanceForm {
     @Min(value = 1, message = "1分以上を入力してください")
     private Integer trainDelayTime;
 
+    private String note;
+
     /**
      * 画面入力値を {@link Attendance} エンティティへ変換します。
      *
@@ -36,6 +38,8 @@ public class AttendanceForm {
 
         attendance.setLateTime(lateTime);
         attendance.setTrainDelayTime(trainDelayTime);
+        attendance.setLateReason(lateReason);
+        attendance.setNote(note);
         attendance.setDate(LocalDate.now());
         attendance.setCreatedAt(LocalDateTime.now());
         attendance.setUpdatedAt(LocalDateTime.now());

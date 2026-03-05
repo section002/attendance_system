@@ -69,6 +69,10 @@ body {
   grid-column: span 2;
 }
 
+.full-width {
+  grid-column: span 2;
+}
+
 .form-group > .errormessage {
   color: #f00;
 }

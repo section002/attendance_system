@@ -28,6 +28,7 @@ public class AttendanceController {
 
     /**
      * 全路線情報を取得し、Modelに設定する。
+     * 
      * @return 全路線一覧
      */
     @ModelAttribute("routes")
@@ -52,6 +53,8 @@ public class AttendanceController {
         BindingResult bindingResult,
         Model model
     ) {
+        System.out.println(attendanceForm);
+
         if (bindingResult.hasErrors()) {
             return "registration";
         }
