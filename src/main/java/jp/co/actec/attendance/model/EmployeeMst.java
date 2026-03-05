@@ -22,6 +22,11 @@ public class EmployeeMst implements Serializable {
     @Column(name = "EMP_ID", length = 10, nullable = false)
     private String empId;
 
+    public String getEmpId() {
+    return empId;
+}
+
+
     @ManyToOne
     @JoinColumn(name = "DEPARTMENT_ID", nullable = false)
     private DepartmentMst department;

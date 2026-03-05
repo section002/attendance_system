@@ -1,16 +1,41 @@
 package jp.co.actec.attendance.service;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
+
 import jp.co.actec.attendance.form.EmployeeForm;
+import jp.co.actec.attendance.model.EmployeeMst;
+import jp.co.actec.attendance.model.EmployeePassword;
+import jp.co.actec.attendance.model.EmployeePasswordId;
+import jp.co.actec.attendance.model.RouteMst;
+import jp.co.actec.attendance.repository.EmployeeMstRepository;
+import jp.co.actec.attendance.repository.EmployeePasswordRepository;
 
 @Service
 public class LoginService {
 
     @Autowired
     private EmployeeForm employeeForm;
+     @Autowired
+    private EmployeeMstRepository employeeMstRepository;
+    
+
+
+
+    @Autowired
+    private EmployeePasswordRepository employeePasswordRepository;
+
+
+    // @Autowired
+    // private EmployeePasswordId employeePasswordId;
+
+
+
 
     /*メールアドレス_ドメイン： */
     private final String MAIL_ADRESS_DOMAIN = "@ac-tec.co.jp";
@@ -47,18 +72,31 @@ public class LoginService {
             // メールアドレスが指定のドメインでない場合、認証失敗
             return false;
         }
-
-        // TODO:データベースからの取得処理を記載する
-        // TODO:こちらの処理はデータベースからの取得処理が作成完了した後削除する　ここから
-        String tmpmailAdress = "example@ac-tec.co.jp";
-        String tmpPassword = "1234";
-        if(!mailAdress.equals(tmpmailAdress) || !password.equals(tmpPassword)) {
-            return false;
+        
+        // メールアドレスから社員テーブルを検索
+        List<EmployeeMst> employee = employeeMstRepository.findByMailAddress(mailAdress);
+        if(employee.size() != 1 ){
+            // 1件でなければエラー
+            return false ;
         }
-        // TODO:ここまで
+        // 社員IDを抽出
+        String empId = employee.get(0).getEmpId();
 
-        return true;
+        // PKの項目にデータセット
+        EmployeePasswordId employeePasswordId = new EmployeePasswordId();
+        employeePasswordId.setEmpId(empId);
+        employeePasswordId.setPassword(password);
+
+        // パスワードテーブルを検索
+        Optional<EmployeePassword> passId = employeePasswordRepository.findById(employeePasswordId);
+
+        // 存在判定を返す
+        return !passId.isEmpty();
     }
+
+
+
+    
 
     /**
      * 社員情報をDBから取得する
