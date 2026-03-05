@@ -21,4 +21,12 @@ public enum LateReason {
     public String getLabel() {
         return label;
     }
+
+    public static LateReason fromCode(int code) {
+        for (LateReason reason : LateReason.values()) {
+            if (reason.code == code) return reason;
+        }
+        
+        throw new IllegalArgumentException("Invalid late reason code: " + code);
+    }
 }

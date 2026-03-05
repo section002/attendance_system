@@ -8,6 +8,8 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jp.co.actec.attendance.constant.LateReason;
+
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -54,4 +56,8 @@ public class Attendance implements Serializable {
 
     @Column(name = "UPDATED_AT", nullable = false, columnDefinition = "TIMESTAMP DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime updatedAt;
+
+    public String getLateReasonLabel() {
+        return LateReason.fromCode(this.lateReason).getLabel();
+    }
 }
