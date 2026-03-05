@@ -6,4 +6,4 @@ import org.springframework.stereotype.Repository;
 import jp.co.actec.attendance.model.EmployeeMst;
 
 @Repository
-public interface EmployeeRepository extends JpaRepository<EmployeeMst, Integer> {}
+public interface EmployeeRepository extends JpaRepository<EmployeeMst, String> {}

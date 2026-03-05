@@ -11,6 +11,7 @@ import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.repository.AttendanceRepository;
 import jp.co.actec.attendance.repository.EmployeeRepository;
 import jp.co.actec.attendance.repository.RouteRepository;
+import java.util.List;
 
 @Service
 public class AttendanceService {
@@ -26,11 +27,15 @@ public class AttendanceService {
     @Transactional
     public void register(AttendanceForm attendanceForm) {
         // 社員IDは認証情報をセッションから取得予定
-        EmployeeMst employee = employeeRepository.findById(1).orElseThrow();
+        EmployeeMst employee = employeeRepository.findById("1").orElseThrow();
         RouteMst route = routeRepository.findById(attendanceForm.getRouteId()).orElseThrow();
         Attendance attendance = attendanceForm.toEntity();
         attendance.setEmployee(employee);
         attendance.setRoute(route);
         attendanceRepository.save(attendance);
+    }
+
+    public List<Attendance> findLateAttendances() {
+        return attendanceRepository.findByLateTimeGreaterThan(0);
     }
 }

@@ -1,5 +1,6 @@
 package jp.co.actec.attendance.controller;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,9 +13,12 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpServletResponse;
 import jp.co.actec.attendance.form.AttendanceForm;
+import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.service.AttendanceService;
+import jp.co.actec.attendance.service.ExportService;
 import jp.co.actec.attendance.service.RouteService;
 
 @Controller
@@ -25,6 +29,9 @@ public class AttendanceController {
     
     @Autowired
     RouteService routeService;
+
+    @Autowired
+    ExportService exportService;
 
     /**
      * 全路線情報を取得し、Modelに設定する。
@@ -60,5 +67,11 @@ public class AttendanceController {
         attendanceService.register(attendanceForm);
 
         return "redirect:/attendances";
+    }
+
+    @GetMapping("/export/csv")
+    public void exportCsv(HttpServletResponse response) throws IOException {
+        List<Attendance> attendances = attendanceService.findLateAttendances();
+        exportService.exportLateAttendancesCsv(attendances, response);
     }
 }
