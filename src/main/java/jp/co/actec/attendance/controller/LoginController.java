@@ -32,11 +32,13 @@ public class LoginController {
            model.addAttribute("error", "メールアドレスまたはパスワードが正しくありません。");
            // 入力値を保持して再表示
            model.addAttribute("email", mailAdress);
+
            return "login";
        } else {
            // 認証成功：セッションにユーザー情報を保存して、登録画面へリダイレクト
            session.setAttribute("employeeInfo", loginService.buildEmployeeForm(mailAdress));
-           return "redirect:/registration";
+           
+           return "redirect:/attendances/new";
        }
     }
 
