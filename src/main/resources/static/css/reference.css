@@ -19,22 +19,17 @@ header {
 ===================== */
 .search-info-wrapper {
     display: flex;
-    gap: 20px;
+    justify-content: space-between;
     margin: 20px;
     flex-wrap: wrap;
 }
 
 .search-box {
-    flex: 1 1 400px;
-    min-width: 280px;
-    background: #fff;
-    padding: 15px 20px;
+    padding: 16px;
+    background-color: #fff;
     border-radius: 10px;
     border: 1px solid #e5e5e5;
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.05);
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
 }
 
 .search-title {
@@ -46,10 +41,8 @@ header {
     margin-bottom: 5px;
 }
 
-.search-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 15px 10px;
+.search-item-wrapper {
+    margin: 12px 0;
 }
 
 .search-item {
@@ -57,8 +50,8 @@ header {
     padding: 10px 12px;
     border-radius: 8px;
     border: 1px solid #e0e4ee;
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     gap: 5px;
     transition: .2s;
 }
@@ -89,6 +82,13 @@ header {
     outline: none;
 }
 
+.search-item input[type="date"] {
+    border-radius: 8px;
+    border: 1px solid #707070;
+    outline: none;
+    padding: 8px 16px;
+}
+
 .search-actions {
     display: flex;
     justify-content: flex-end;
@@ -117,28 +117,33 @@ header {
     box-shadow: 0 3px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* =====================
+    カード
+===================== */
+
 .info-cards {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    flex: 0 0 auto;
+    display: grid;
+    gap: 8px;
 }
 
 .card {
-    flex: 1 1 150px;
-    min-width: 120px;
+    min-width: 80px;
+    padding: 8px;
     background: #fff;
-    padding: 10px;
     border-radius: 10px;
 }
 
 .card-title {
+    text-align: center;
     color: #707070;
-    margin-bottom: 5px;
 }
 
 .card-value {
-    font-size: 28px;
+    font-size: 24px;
+    text-align: right;
+}
+
+.card-value.success {
     color: #2374d0;
 }
 

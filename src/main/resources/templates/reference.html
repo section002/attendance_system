@@ -18,31 +18,55 @@
           method="get"
         >
           <div class="search-title">検索条件</div>
-          <div class="search-grid">
+
+          <div class="search-item-wrapper">
             <div class="search-item">
-              <label>日付</label>
-              <input type="date" th:field="*{from}" />
-              <input type="date" th:field="*{to}" />
+              <label for="date">日付</label>
+              <div>
+                <input type="date" id="date" th:field="*{from}" />
+                ～
+                <input type="date" id="date" th:field="*{to}" />
+              </div>
             </div>
+
             <div class="search-item">
               <label>路線</label>
-              <input type="text" />
+              <select id="routeId" th:field="*{routeId}">
+                <option value="">選択してください</option>
+                <option
+                  th:each="route : ${routes}"
+                  th:value="${route.routeId}"
+                  th:text="${route.routeName}"
+                ></option>
+              </select>
             </div>
+  
+            <!-- <div class="search-grid">
+              <div class="search-item">
+                <label>日付</label>
+                <input type="date" th:field="*{from}" /> ～ <input type="date" th:field="*{to}" />
+              </div>
+              <div class="search-item">
+                <label>路線</label>
+                <input type="text" />
+              </div>
+            </div> -->
+            <!-- <div class="search-grid">
+              <div class="search-item">
+                <label>ユニット</label>
+                <input type="text" />
+              </div>
+              <div class="search-item">
+                <label>チーム</label>
+                <input type="text" />
+              </div>
+              <div class="search-item">
+                <label>氏名</label>
+                <input type="text" />
+              </div>
+            </div> -->
           </div>
-          <div class="search-grid">
-            <div class="search-item">
-              <label>ユニット</label>
-              <input type="text" />
-            </div>
-            <div class="search-item">
-              <label>チーム</label>
-              <input type="text" />
-            </div>
-            <div class="search-item">
-              <label>氏名</label>
-              <input type="text" />
-            </div>
-          </div>
+
           <div class="search-actions">
             <button class="btn-search">検索</button>
           </div>
@@ -52,11 +76,11 @@
       <div class="info-cards">
         <div class="card">
           <div class="card-title">遅刻者数</div>
-          <div class="card-value">12名</div>
+          <div class="card-value success">12名</div>
         </div>
         <div class="card">
           <div class="card-title">同一路線</div>
-          <div class="card-value warning">5名</div>
+          <div class="card-value warning">10名</div>
         </div>
       </div>
     </div>
