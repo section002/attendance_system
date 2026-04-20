@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import jakarta.servlet.http.HttpSession;
+import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.service.LoginService;
 
 @Controller
@@ -27,7 +28,8 @@ public class LoginController {
                        Model model,
                        HttpSession session) {
 
-       if(!loginService.authenticate(mailAdress, password)) { 
+       EmployeeMst employee = new EmployeeMst();
+       if((employee = loginService.authenticate(mailAdress, password)) == null) { 
            // 認証失敗：エラーメッセージと入力されたメールアドレスを入力欄に戻す
            model.addAttribute("error", "メールアドレスまたはパスワードが正しくありません。");
            // 入力値を保持して再表示
@@ -36,7 +38,7 @@ public class LoginController {
            return "login";
        } else {
            // 認証成功：セッションにユーザー情報を保存して、登録画面へリダイレクト
-           session.setAttribute("employeeInfo", loginService.buildEmployeeForm(mailAdress));
+           session.setAttribute("employeeInfo", loginService.buildEmployeeForm(employee));
            
            return "redirect:/attendances/new";
        }

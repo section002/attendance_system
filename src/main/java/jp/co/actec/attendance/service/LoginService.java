@@ -12,7 +12,6 @@ import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.model.EmployeePassword;
 import jp.co.actec.attendance.model.EmployeePasswordId;
-import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.repository.EmployeeMstRepository;
 import jp.co.actec.attendance.repository.EmployeePasswordRepository;
 
@@ -21,21 +20,12 @@ public class LoginService {
 
     @Autowired
     private EmployeeForm employeeForm;
-     @Autowired
-    private EmployeeMstRepository employeeMstRepository;
-    
-
-
 
     @Autowired
+    private EmployeeMstRepository employeeMstRepository;
+    
+    @Autowired
     private EmployeePasswordRepository employeePasswordRepository;
-
-
-    // @Autowired
-    // private EmployeePasswordId employeePasswordId;
-
-
-
 
     /*メールアドレス_ドメイン： */
     private final String MAIL_ADRESS_DOMAIN = "@ac-tec.co.jp";
@@ -53,34 +43,35 @@ public class LoginService {
      * @param password パスワード
      * @return 認証結果（true:認証成功、false:認証失敗）
      */
-    public boolean authenticate(String mailAdress, String password) {
+    public EmployeeMst authenticate(String mailAdress, String password) {
 
+        EmployeeMst employee = new EmployeeMst();
         // 必須チェック
         if (!StringUtils.hasText(mailAdress) || !StringUtils.hasText(password)) {
             // メールアドレスまたはパスワードが未入力の場合、認証失敗
-            return false;
+            return null;
         }
 
         // 文字数チェック
         if (mailAdress.length() > MAX_LENGTH_MAIL_ADRESS || password.length() > MAX_LENGTH_PASSWORD) {
             // メールアドレスまたはパスワードが最大文字数を超える場合、認証失敗
-            return false;
+            return null;
         }
 
         // メールアドレスチェック
         if(!mailAdress.endsWith(MAIL_ADRESS_DOMAIN)) {
             // メールアドレスが指定のドメインでない場合、認証失敗
-            return false;
+            return null;
         }
         
         // メールアドレスから社員テーブルを検索
-        List<EmployeeMst> employee = employeeMstRepository.findByMailAddress(mailAdress);
-        if(employee.size() != 1 ){
+        List<EmployeeMst> employeeList = employeeMstRepository.findByMailAddress(mailAdress);
+        if(employeeList.size() != 1 ){
             // 1件でなければエラー
-            return false ;
+            return null ;
         }
         // 社員IDを抽出
-        String empId = employee.get(0).getEmpId();
+        String empId = employeeList.get(0).getEmpId();
 
         // PKの項目にデータセット
         EmployeePasswordId employeePasswordId = new EmployeePasswordId();
@@ -90,33 +81,33 @@ public class LoginService {
         // パスワードテーブルを検索
         Optional<EmployeePassword> passId = employeePasswordRepository.findById(employeePasswordId);
 
-        // 存在判定を返す
-        return !passId.isEmpty();
+        // 存在判定
+        if (passId.isPresent()) {
+            // 認証成功
+            return employeeList.get(0);
+        } else {
+            // 認証失敗
+            return null;
+        }
     }
 
-
-
-    
 
     /**
      * 社員情報をDBから取得する
      * @param mailAdress メールアドレス
      * @return EmployeeForm 社員情報フォーム
      */
-    public EmployeeForm buildEmployeeForm(String mailAdress) {
+    public EmployeeForm buildEmployeeForm(EmployeeMst employee) {
 
-        // TODO:データベースから社員情報を取得し、EmployeeFormにセットする処理を記載する
-        // TODO:こちらの処理はデータベースからの取得処理が作成完了した後削除する　ここから
-        employeeForm.setEmpId("1");
-        employeeForm.setRole("1");
-        employeeForm.setEmpLname("山田");
-        employeeForm.setEmpFname("太郎");
-        employeeForm.setEmpLnameKana("ヤマダ");
-        employeeForm.setEmpFnameKana("タロウ");
-        employeeForm.setMailAdress(mailAdress);
-        employeeForm.setTeamId("1");
-        employeeForm.setTeamName("セクション2");
-        // TODO:ここまで
+        employeeForm.setEmpId(employee.getEmpId());
+        employeeForm.setRole(employee.getRole());
+        employeeForm.setEmpLname(employee.getEmpLname());
+        employeeForm.setEmpFname(employee.getEmpFname());
+        employeeForm.setEmpLnameKana(employee.getEmpLnameKana());
+        employeeForm.setEmpFnameKana(employee.getEmpFnameKana());
+        employeeForm.setMailAdress(employee.getMailAddress());
+        employeeForm.setTeamId(employee.getTeam().toString());
+        employeeForm.setTeamName(employee.getTeam().getTeamName());
 
         return employeeForm;
     }
