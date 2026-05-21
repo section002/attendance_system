@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
+import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.model.RouteMst;
@@ -35,11 +36,23 @@ public class AttendanceService {
      * 
      * @return 勤怠情報一覧
      */
-    public List<Attendance> findByCurrentMonth() {
+    public List<Attendance> findByCurrentMonth(EmployeeForm employeeForm) {
         YearMonth now = YearMonth.now();
         LocalDate from = now.atDay(1);
         LocalDate to = now.atEndOfMonth();
-        return attendanceRepository.findByDateBetween(from, to);
+        if ("1".equals(employeeForm.getDepartmentId())) {
+            // 総務部は全社員の勤怠情報を取得
+            return attendanceRepository.findByDateBetween(from, to);
+        }
+        // それ以外は権限に応じた勤怠情報を取得
+        return attendanceRepository.findAttendanceByCondition(
+            employeeForm.getDepartmentId(),
+            employeeForm.getUnitNo(),
+            employeeForm.getTeamId(),
+            employeeForm.getEmpId(),
+            from,
+            to
+        );
     }
 
     /**

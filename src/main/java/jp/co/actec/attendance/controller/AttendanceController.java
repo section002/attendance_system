@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
+import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.service.AttendanceService;
@@ -49,9 +50,9 @@ public class AttendanceController {
     @GetMapping
     public String index(
         @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
-        Model model
+        Model model, HttpSession session
     ) {
-        List<Attendance> attendances = attendanceService.findByCurrentMonth();
+        List<Attendance> attendances = attendanceService.findByCurrentMonth((EmployeeForm) session.getAttribute("employeeInfo"));
 
         model.addAttribute("attendances", attendances);
 

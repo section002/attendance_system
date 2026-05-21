@@ -8,8 +8,6 @@ import lombok.Data;
 @Component
 public class EmployeeForm {
     
-    // TODO:フィールド追加・削除・変更検討
-
     /* 社員ID */
     private String empId;
 
@@ -22,12 +20,6 @@ public class EmployeeForm {
     /* 社員名 */
     private String empFname;
 
-    /* 社員セイ */
-    private String empLnameKana;
-
-    /* 社員メイ */
-    private String empFnameKana;
-
     /* メールアドレス */
     private String mailAdress;
 
@@ -37,4 +29,9 @@ public class EmployeeForm {
     /* チーム名 */
     private String teamName;
 
+    /* ユニットNo */
+    private String unitNo;
+
+    /* 部署ID */
+    private String departmentId;
 }
