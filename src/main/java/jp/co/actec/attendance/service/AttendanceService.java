@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
+import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.model.RouteMst;
@@ -73,9 +74,8 @@ public class AttendanceService {
      * @param attendanceForm 登録対象の勤怠情報フォーム
      */
     @Transactional
-    public void register(AttendanceForm attendanceForm) {
-        // 社員IDは認証情報をセッションから取得予定
-        EmployeeMst employee = employeeRepository.findById(1).orElseThrow();
+    public void register(AttendanceForm attendanceForm, EmployeeForm employeeForm) {
+        EmployeeMst employee = employeeRepository.findById(Integer.parseInt(employeeForm.getEmpId())).orElseThrow();
         RouteMst route = routeRepository.findById(attendanceForm.getRouteId()).orElseThrow();
         Attendance attendance = attendanceForm.toEntity();
         attendance.setEmployee(employee);

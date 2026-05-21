@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import jakarta.servlet.http.HttpSession;
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
+import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.service.AttendanceService;
@@ -101,11 +102,13 @@ public class AttendanceController {
     public String create(
         @ModelAttribute("attendance") @Validated AttendanceForm attendanceForm,
         BindingResult bindingResult,
-        Model model
+        Model model,
+        HttpSession session
     ) {
         if (bindingResult.hasErrors()) return "registration";
 
-        attendanceService.register(attendanceForm);
+        EmployeeForm employeeForm = (EmployeeForm) session.getAttribute("employeeInfo");
+        attendanceService.register(attendanceForm, employeeForm);
 
         return "redirect:/attendances";
     }
