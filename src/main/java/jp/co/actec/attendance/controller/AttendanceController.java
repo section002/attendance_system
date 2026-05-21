@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import jakarta.servlet.http.HttpSession;
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
 import jp.co.actec.attendance.model.Attendance;
@@ -79,7 +80,7 @@ public class AttendanceController {
     @GetMapping("/new")
     public String newForm(
         @ModelAttribute("attendance") AttendanceForm attendanceForm,
-        Model model
+        Model model, HttpSession session
     ) {
         return "registration";
     }

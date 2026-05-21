@@ -97,11 +97,15 @@ body {
 }
 
 .btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   border: none;
   padding: 10px 24px;
   font-size: 14px;
   border-radius: 6px;
   cursor: pointer;
+  text-decoration: none;
 }
 
 .btn-primary {
