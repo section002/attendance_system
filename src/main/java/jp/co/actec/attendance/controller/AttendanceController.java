@@ -1,6 +1,8 @@
 package jp.co.actec.attendance.controller;
 
+import java.io.PrintWriter;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +20,8 @@ import jp.co.actec.attendance.model.Attendance;
 import jp.co.actec.attendance.model.RouteMst;
 import jp.co.actec.attendance.service.AttendanceService;
 import jp.co.actec.attendance.service.RouteService;
+
+import jakarta.servlet.http.HttpServletResponse;
 
 @Controller
 @RequestMapping("/attendances")
@@ -103,5 +107,40 @@ public class AttendanceController {
         attendanceService.register(attendanceForm);
 
         return "redirect:/attendances";
+    }
+
+    @GetMapping("/export/csv")
+    public void downloadCsv(HttpServletResponse response) {
+        response.setContentType("text/csv");
+        response.setCharacterEncoding("UTF-8");
+        response.setHeader("Content-Disposition", "attachment; filename=\"attendance.csv\"");
+        
+        try (PrintWriter writer = response.getWriter()) {
+            List<Attendance> attendances = attendanceService.findAllOrderByDateDesc();
+
+            writer.println(
+                "社員名," +
+                "路線名," +
+                "日付," +
+                "遅刻理由," +
+                "遅刻時間," +
+                "遅延時間," +
+                "備考"
+            );
+
+            for (Attendance attendance : attendances) {
+                writer.println(
+                    attendance.getEmployee().getEmpLname() + attendance.getEmployee().getEmpFname() + "," +
+                    attendance.getRoute().getRouteName() + "," +
+                    attendance.getDate() + "," +
+                    attendance.getLateReasonLabel() + "," +
+                    attendance.getLateTime() + "," +
+                    attendance.getTrainDelayTime() + "," +
+                    Objects.toString(attendance.getNote(), "")
+                );
+            }
+        } catch (Exception e) {
+            // エラー処理は時間があれば実装
+        }
     }
 }
