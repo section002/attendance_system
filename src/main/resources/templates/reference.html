@@ -93,8 +93,9 @@
     </div>
 
     <div class="export-buttons">
-      <button class="btn-csv">CSV出力</button>
-      <button class="btn-excel">Excel出力</button>
+      <form th:action="@{/attendances/export/csv}" method="get">
+        <button class="btn-csv">CSV出力</button>
+      </form>
     </div>
   </body>
 </html>

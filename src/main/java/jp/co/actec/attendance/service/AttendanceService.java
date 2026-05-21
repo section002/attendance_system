@@ -5,6 +5,7 @@ import java.time.YearMonth;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -31,9 +32,18 @@ public class AttendanceService {
     RouteRepository routeRepository;
 
     /**
-     * 今月の勤怠情報一覧を返す
-     * 
-     * @return 勤怠情報一覧
+     * 勤怠情報を日付の降順で全件取得する。
+     *
+     * @return 日付降順にソートされた勤怠情報のリスト
+     */
+    public List<Attendance> findAllOrderByDateDesc() {
+        return attendanceRepository.findAll(Sort.by(Sort.Direction.DESC, "date"));
+    }
+
+    /**
+     * 当月の勤怠情報一覧を取得する。
+     *
+     * @return 当月の勤怠情報リスト
      */
     public List<Attendance> findByCurrentMonth() {
         YearMonth now = YearMonth.now();
@@ -43,10 +53,10 @@ public class AttendanceService {
     }
 
     /**
-     * 検索した勤怠情報一覧を返す
-     * 
-     * @param searchForm 検索フォーム入力値
-     * @return 勤怠情報一覧
+     * 検索条件に一致する勤怠情報一覧を取得する。
+     *
+     * @param searchForm 検索条件を保持するフォーム
+     * @return 条件に一致する勤怠情報リスト
      */
     public List<Attendance> search(AttendanceSearchForm searchForm) {
         Specification<Attendance> spec = AttendanceSpecification.search(
@@ -58,9 +68,9 @@ public class AttendanceService {
     }
 
     /**
-     * 勤怠情報を登録する
-     * 
-     * @param attendanceForm フォーム入力値
+     * 勤怠情報を登録する。
+     *
+     * @param attendanceForm 登録対象の勤怠情報フォーム
      */
     @Transactional
     public void register(AttendanceForm attendanceForm) {
