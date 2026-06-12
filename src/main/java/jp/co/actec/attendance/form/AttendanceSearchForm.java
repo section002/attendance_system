@@ -15,4 +15,14 @@ public class AttendanceSearchForm {
 
     @DateTimeFormat(iso = DateTimeFormat.ISO.DATE)
     private LocalDate to;
+
+    private Integer routeId;
+
+    private String departmentId;
+
+    private String teamId;
+
+    private String unitNo;
+
+    private String empNo;
 }

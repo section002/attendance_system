@@ -12,9 +12,13 @@ import jp.co.actec.attendance.model.Attendance;
 
 public class AttendanceSpecification {
     public static Specification<Attendance> search(
-        LocalDate from,
-        LocalDate to
-    ) {
+            LocalDate from,
+            LocalDate to,
+            Integer routeId,
+            String unitNo,
+            String teamId,
+            String empNo
+        ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
 
@@ -24,6 +28,22 @@ public class AttendanceSpecification {
 
             if (to != null) {
                 predicates.add(cb.lessThanOrEqualTo(root.get("date"), to));
+            }
+
+            if (routeId != null) {
+                predicates.add(cb.equal(root.get("route").get("id"), routeId));
+            }
+
+            if (unitNo != null && !unitNo.isBlank()) {
+                predicates.add(cb.equal(root.get("employee").get("team").get("unitNo"), unitNo));
+            }
+
+            if (teamId != null && !teamId.isBlank()) {
+                predicates.add(cb.equal(root.get("employee").get("team").get("teamId"), teamId));
+            }
+
+            if (empNo != null && !empNo.isBlank()) {
+                predicates.add(cb.equal(root.get("employee").get("empId"), empNo));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

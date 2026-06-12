@@ -62,7 +62,11 @@ public class AttendanceService {
     public List<Attendance> search(AttendanceSearchForm searchForm) {
         Specification<Attendance> spec = AttendanceSpecification.search(
             searchForm.getFrom(),
-            searchForm.getTo()
+            searchForm.getTo(),
+            searchForm.getRouteId(),
+            searchForm.getUnitNo(),
+            searchForm.getTeamId(),
+            searchForm.getEmpNo()
         );
         
         return attendanceRepository.findAll(spec);

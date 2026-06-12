@@ -4,6 +4,8 @@ import java.io.PrintWriter;
 import java.util.List;
 import java.util.Objects;
 
+import jp.co.actec.attendance.service.EmployeeService;
+import jp.co.actec.attendance.service.TeamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,8 +21,12 @@ import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
 import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.Attendance;
+import jp.co.actec.attendance.model.DepartmentMst;
+import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.model.RouteMst;
+import jp.co.actec.attendance.model.TeamMst;
 import jp.co.actec.attendance.service.AttendanceService;
+import jp.co.actec.attendance.service.DepartmentService;
 import jp.co.actec.attendance.service.RouteService;
 
 import jakarta.servlet.http.HttpServletResponse;
@@ -34,6 +40,20 @@ public class AttendanceController {
     @Autowired
     RouteService routeService;
 
+    @Autowired
+    TeamService teamService;
+
+    @Autowired
+    DepartmentService departmentService;
+
+    @Autowired
+    EmployeeService employeeService;
+
+    AttendanceController(TeamService teamService, EmployeeService employeeService) {
+        this.teamService = teamService;
+        this.employeeService = employeeService;
+    }
+
     /**
      * 全路線情報を取得し、Modelに設定する
      * 
@@ -42,6 +62,36 @@ public class AttendanceController {
     @ModelAttribute("routes")
     public List<RouteMst> getRoutes() {
         return routeService.findAllRoutes();
+    }
+
+    /**
+     * 全チーム情報を取得し、Modelに設定する
+     * 
+     * @return 全チーム情報一覧
+     */
+    @ModelAttribute("teams")
+    public List<TeamMst> getTeams() {
+        return teamService.findAllTeams();
+    }
+
+    /**
+     * 全部署情報を取得し、Modelに設定する
+     * 
+     * @return 全部署情報一覧
+     */
+    @ModelAttribute("departments")
+    public List<DepartmentMst> getDepartments() {
+        return departmentService.findAllDepartments();
+    }
+
+    /**
+     * 全従業員情報を取得し、Modelに設定する
+     * 
+     * @return 全従業員情報一覧
+     */
+    @ModelAttribute("employees")
+    public List<EmployeeMst> getEmployees() {
+        return employeeService.findAllEmployees();
     }
 
     /**
@@ -56,7 +106,8 @@ public class AttendanceController {
         @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
         Model model
     ) {
-        List<Attendance> attendances = attendanceService.findByCurrentMonth();
+        // List<Attendance> attendances = attendanceService.findByCurrentMonth();
+        List<Attendance> attendances = attendanceService.findAllOrderByDateDesc();
 
         model.addAttribute("attendances", attendances);
 
@@ -77,6 +128,9 @@ public class AttendanceController {
     ) {
         List<Attendance> attendances = attendanceService.search(searchForm);
 
+        System.out.println("テスト中");
+        System.out.println(attendances);
+
         model.addAttribute("attendances", attendances);
 
         return "reference";
@@ -85,7 +139,8 @@ public class AttendanceController {
     @GetMapping("/new")
     public String newForm(
         @ModelAttribute("attendance") AttendanceForm attendanceForm,
-        Model model, HttpSession session
+        Model model,
+        HttpSession session
     ) {
         return "registration";
     }
