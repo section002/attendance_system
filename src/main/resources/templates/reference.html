@@ -8,13 +8,6 @@
 
 <body layout:fragment="content">
   <div class="page">
-    <div class="page-header">
-      <div>
-        <h1>勤怠ダッシュボード</h1>
-        <p>遅刻・路線別の分析と一覧管理</p>
-      </div>
-    </div>
-
     <div class="kpi-grid">
       <div class="kpi-card">
         <div class="kpi-label">遅刻者数</div>
@@ -79,8 +72,9 @@
           </div>
         </div>
 
-        <div class="actions">
-          <button class="btn-primary">検索</button>
+        <div class="form-buttons">
+          <button type="submit" class="btn-primary">検索</button>
+          <button type="reset" class="btn-primary">クリア</button>
         </div>
       </form>
     </div>
