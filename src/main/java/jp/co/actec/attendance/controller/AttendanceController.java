@@ -176,7 +176,7 @@ public class AttendanceController {
     @GetMapping("/export/csv")
     public void downloadCsv(HttpServletResponse response) {
         response.setContentType("text/csv");
-        response.setCharacterEncoding("UTF-8");
+        response.setCharacterEncoding("Shift_JIS");
         response.setHeader("Content-Disposition", "attachment; filename=\"attendance.csv\"");
 
         try (PrintWriter writer = response.getWriter()) {
