@@ -23,10 +23,10 @@ public interface AttendanceRepository extends JpaRepository<Attendance, Integer>
         select
             ad.*
         from
-            attendance ad
-        inner join employee_mst em
+            attendance_system.attendance ad
+        inner join attendance_system.employee_mst em
             on em.emp_id = ad.emp_id
-        inner join team_mst tm
+        inner join attendance_system.team_mst tm
             on tm.team_id = em.team_id
         where
             (
