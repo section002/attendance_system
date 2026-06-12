@@ -106,8 +106,7 @@ public class AttendanceController {
         @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
         Model model
     ) {
-        // List<Attendance> attendances = attendanceService.findByCurrentMonth();
-        List<Attendance> attendances = attendanceService.findAllOrderByDateDesc();
+        List<Attendance> attendances = attendanceService.findByCurrentMonth();
 
         model.addAttribute("attendances", attendances);
 
