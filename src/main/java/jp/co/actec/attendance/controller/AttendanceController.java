@@ -104,9 +104,9 @@ public class AttendanceController {
     @GetMapping
     public String index(
         @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
-        Model model
+        Model model, HttpSession session
     ) {
-        List<Attendance> attendances = attendanceService.findByCurrentMonth();
+        List<Attendance> attendances = attendanceService.findByCurrentMonth((EmployeeForm) session.getAttribute("employeeInfo"));
 
         model.addAttribute("attendances", attendances);
 

@@ -46,11 +46,23 @@ public class AttendanceService {
      *
      * @return 当月の勤怠情報リスト
      */
-    public List<Attendance> findByCurrentMonth() {
+    public List<Attendance> findByCurrentMonth(EmployeeForm employeeForm) {
         YearMonth now = YearMonth.now();
         LocalDate from = now.atDay(1);
         LocalDate to = now.atEndOfMonth();
-        return attendanceRepository.findByDateBetween(from, to);
+        if ("1".equals(employeeForm.getDepartmentId())) {
+            // 総務部は全社員の勤怠情報を取得
+            return attendanceRepository.findByDateBetween(from, to);
+        }
+        // それ以外は権限に応じた勤怠情報を取得
+        return attendanceRepository.findAttendanceByCondition(
+            employeeForm.getDepartmentId(),
+            employeeForm.getUnitNo(),
+            employeeForm.getTeamId(),
+            employeeForm.getEmpId(),
+            from,
+            to
+        );
     }
 
     /**
