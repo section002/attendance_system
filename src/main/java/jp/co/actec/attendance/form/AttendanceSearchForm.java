@@ -24,5 +24,5 @@ public class AttendanceSearchForm {
 
     private String unitNo;
 
-    private String empNo;
+    private String empId;
 }

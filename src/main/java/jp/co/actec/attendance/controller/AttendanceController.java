@@ -128,9 +128,6 @@ public class AttendanceController {
     ) {
         List<Attendance> attendances = attendanceService.search(searchForm);
 
-        System.out.println("テスト中");
-        System.out.println(attendances);
-
         model.addAttribute("attendances", attendances);
 
         return "reference";

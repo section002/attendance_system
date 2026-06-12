@@ -17,7 +17,7 @@ public class AttendanceSpecification {
             Integer routeId,
             String unitNo,
             String teamId,
-            String empNo
+            String empId
         ) {
         return (root, query, cb) -> {
             List<Predicate> predicates = new ArrayList<>();
@@ -39,11 +39,11 @@ public class AttendanceSpecification {
             }
 
             if (teamId != null && !teamId.isBlank()) {
-                predicates.add(cb.equal(root.get("employee").get("team").get("teamId"), teamId));
+                predicates.add(cb.equal(root.get("employee").get("team").get("id"), teamId));
             }
 
-            if (empNo != null && !empNo.isBlank()) {
-                predicates.add(cb.equal(root.get("employee").get("empId"), empNo));
+            if (empId != null && !empId.isBlank()) {
+                predicates.add(cb.equal(root.get("employee").get("id"), empId));
             }
 
             return cb.and(predicates.toArray(new Predicate[0]));

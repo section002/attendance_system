@@ -66,7 +66,7 @@ public class AttendanceService {
             searchForm.getRouteId(),
             searchForm.getUnitNo(),
             searchForm.getTeamId(),
-            searchForm.getEmpNo()
+            searchForm.getEmpId()
         );
         
         return attendanceRepository.findAll(spec);

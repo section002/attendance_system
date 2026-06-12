@@ -7,102 +7,120 @@
 </head>
 
 <body layout:fragment="content">
-  <div class="search-info-wrapper">
-    <div class="search-box">
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>勤怠ダッシュボード</h1>
+        <p>遅刻・路線別の分析と一覧管理</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi-card">
+        <div class="kpi-label">遅刻者数</div>
+        <div class="kpi-value">12</div>
+      </div>
+
+      <div class="kpi-card warning">
+        <div class="kpi-label">同一路線</div>
+        <div class="kpi-value">5</div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">検索条件</div>
+
       <form th:action="@{/attendances/search}" th:object="${searchForm}" method="get">
-        <div class="search-title">検索条件</div>
-        <div class="search-grid">
-          <div class="search-item">
+        <div class="filter-grid">
+          <div class="field">
             <label>日付</label>
-            <input type="date" th:field="*{from}" />
-            <input type="date" th:field="*{to}" />
+            <div class="flex-box">
+              <input type="date" th:field="*{from}">
+              <span>〜</span>
+              <input type="date" th:field="*{to}">
+            </div>
           </div>
-          <div class="search-item">
-            <label>路線名</label>
-            <select id="routeId" th:field="*{routeId}">
-              <option value="">選択してください</option>
-              <option th:each="route : ${routes}" th:value="${route.routeId}" th:text="${route.routeName}"></option>
+
+          <div class="field">
+            <label>路線</label>
+            <select th:field="*{routeId}">
+              <option value="">すべて</option>
+              <option th:each="route : ${routes}" th:value="${route.routeId}" th:text="${route.routeName}">
+              </option>
             </select>
           </div>
-        </div>
-        
-        <div class="search-grid">
-          <div class="search-item">
+
+          <div class="field">
             <label>ユニット</label>
-            <select id="unitNo" th:field="*{unitNo}">
-              <option value="">選択してください</option>
+            <select th:field="*{unitNo}">
+              <option value="">すべて</option>
               <option value="1">1</option>
               <option value="2">2</option>
             </select>
           </div>
 
-          <div class="search-item">
+          <div class="field">
             <label>チーム</label>
-            <select id="teamId" th:field="*{teamId}">
-              <option value="">選択してください</option>
-              <option th:each="team : ${teams}" th:value="${team.teamId}" th:text="${team.teamName}"></option>
+            <select th:field="*{teamId}">
+              <option value="">すべて</option>
+              <option th:each="team : ${teams}" th:value="${team.teamId}" th:text="${team.teamName}">
+              </option>
             </select>
           </div>
 
-          <div class="search-item">
+          <div class="field">
             <label>氏名</label>
-            <select id="empNo" th:field="*{empNo}">
-              <option value="">選択してください</option>
-              <option th:each="employee : ${employees}" th:value="${employee.empNo}" th:text="${employee.empLname} + ${employee.empFname}"></option>
+            <select th:field="*{empId}">
+              <option value="">すべて</option>
+              <option th:each="employee : ${employees}" th:value="${employee.empId}"
+                th:text="${employee.empLname + employee.empFname}">
+              </option>
             </select>
           </div>
         </div>
 
-        <div class="search-actions">
-          <button class="btn-search">検索</button>
+        <div class="actions">
+          <button class="btn-primary">検索</button>
         </div>
       </form>
     </div>
 
-    <div class="info-cards">
-      <div class="card">
-        <div class="card-title">遅刻者数</div>
-        <div class="card-value">12名</div>
+    <div class="panel">
+      <div class="panel-title-row">
+        <div>検索結果</div>
       </div>
-      <div class="card">
-        <div class="card-title">同一路線</div>
-        <div class="card-value warning">5名</div>
+
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr>
+              <th>氏名</th>
+              <th>路線</th>
+              <th>遅刻時間</th>
+              <th>遅延時間</th>
+              <th>理由</th>
+              <th>日付</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            <tr th:each="attendance : ${attendances}">
+              <td th:text="${attendance.employee.empLname + attendance.employee.empFname}"></td>
+              <td th:text="${attendance.route.routeName}"></td>
+              <td th:text="${attendance.lateTime}"></td>
+              <td th:text="${attendance.trainDelayTime}"></td>
+              <td th:text="${attendance.lateReasonLabel}"></td>
+              <td th:text="${#temporals.format(attendance.date,'yyyy/MM/dd')}"></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <div class="export">
+        <form th:action="@{/attendances/export/csv}" method="get">
+          <button class="btn-secondary">CSVダウンロード</button>
+        </form>
       </div>
     </div>
   </div>
-
-  <div class="table-wrapper">
-    <table>
-      <thead>
-        <tr>
-          <th>氏名</th>
-          <th>路線</th>
-          <th>遅刻時間</th>
-          <th>電車遅延時間</th>
-          <th>理由</th>
-          <th>日付</th>
-        </tr>
-      </thead>
-      <tbody>
-        <th:block th:each="attendance : ${attendances}">
-          <tr>
-            <td th:text="${attendance.employee.empLname} + ${attendance.employee.empFname}"></td>
-            <td th:text="${attendance.route.routeName}">中央線</td>
-            <td th:text="${attendance.lateTime}"></td>
-            <td th:text="${attendance.trainDelayTime}"></td>
-            <td th:text="${attendance.lateReasonLabel}"></td>
-            <td th:text="${#temporals.format(attendance.date, 'yyyy年MM月dd日')}"></td>
-          </tr>
-        </th:block>
-      </tbody>
-    </table>
-  </div>
-
-  <div class="export-buttons">
-    <form th:action="@{/attendances/export/csv}" method="get">
-      <button class="btn-csv">CSV出力</button>
-    </form>
-  </div>
 </body>
-
-</html>
