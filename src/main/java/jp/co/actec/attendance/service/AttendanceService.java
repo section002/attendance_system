@@ -60,6 +60,18 @@ public class AttendanceService {
      * @return 条件に一致する勤怠情報リスト
      */
     public List<Attendance> search(AttendanceSearchForm searchForm) {
+        boolean isEmpty =
+            (searchForm.getFrom() == null) &&
+            (searchForm.getTo() == null) &&
+            (searchForm.getRouteId() == null) &&
+            (searchForm.getUnitNo() == null || searchForm.getUnitNo().isBlank()) &&
+            (searchForm.getTeamId() == null || searchForm.getTeamId().isBlank()) &&
+            (searchForm.getEmpId() == null || searchForm.getEmpId().isBlank());
+
+        if (isEmpty) {
+            return findByCurrentMonth();
+        }
+
         Specification<Attendance> spec = AttendanceSpecification.search(
             searchForm.getFrom(),
             searchForm.getTo(),

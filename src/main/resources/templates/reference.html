@@ -74,7 +74,7 @@
 
         <div class="form-buttons">
           <button type="submit" class="btn-primary">検索</button>
-          <button type="reset" class="btn-primary">クリア</button>
+          <button type="button" class="btn-primary" onclick="resetSearchForm()">クリア</button>
         </div>
       </form>
     </div>
@@ -117,4 +117,14 @@
       </div>
     </div>
   </div>
+  
+  <script>
+    function resetSearchForm() {
+      const form = document.querySelector('form');
+      
+      form.querySelectorAll("input, select").forEach(element => {
+        element.value = "";
+      });
+    }
+  </script>
 </body>

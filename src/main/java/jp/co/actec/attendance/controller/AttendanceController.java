@@ -126,9 +126,9 @@ public class AttendanceController {
         Model model
     ) {
         List<Attendance> attendances = attendanceService.search(searchForm);
-
+        
         model.addAttribute("attendances", attendances);
-
+        
         return "reference";
     }
 
