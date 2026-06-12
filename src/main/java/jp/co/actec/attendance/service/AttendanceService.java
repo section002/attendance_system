@@ -10,6 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import jakarta.servlet.http.HttpSession;
 import jp.co.actec.attendance.form.AttendanceForm;
 import jp.co.actec.attendance.form.AttendanceSearchForm;
 import jp.co.actec.attendance.form.EmployeeForm;
@@ -71,7 +72,7 @@ public class AttendanceService {
      * @param searchForm 検索条件を保持するフォーム
      * @return 条件に一致する勤怠情報リスト
      */
-    public List<Attendance> search(AttendanceSearchForm searchForm) {
+    public List<Attendance> search(AttendanceSearchForm searchForm, HttpSession session) {
         boolean isEmpty =
             (searchForm.getFrom() == null) &&
             (searchForm.getTo() == null) &&
@@ -81,7 +82,7 @@ public class AttendanceService {
             (searchForm.getEmpId() == null || searchForm.getEmpId().isBlank());
 
         if (isEmpty) {
-            return findByCurrentMonth();
+            return findByCurrentMonth((EmployeeForm) session.getAttribute("employeeInfo"));
         }
 
         Specification<Attendance> spec = AttendanceSpecification.search(
@@ -103,7 +104,7 @@ public class AttendanceService {
      */
     @Transactional
     public void register(AttendanceForm attendanceForm, EmployeeForm employeeForm) {
-        EmployeeMst employee = employeeRepository.findById(Integer.parseInt(employeeForm.getEmpId())).orElseThrow();
+        EmployeeMst employee = employeeRepository.findById(employeeForm.getEmpId()).orElseThrow();
         RouteMst route = routeRepository.findById(attendanceForm.getRouteId()).orElseThrow();
         Attendance attendance = attendanceForm.toEntity();
         attendance.setEmployee(employee);

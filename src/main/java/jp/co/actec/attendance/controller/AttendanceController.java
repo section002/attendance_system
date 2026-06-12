@@ -36,7 +36,7 @@ import jakarta.servlet.http.HttpServletResponse;
 public class AttendanceController {
     @Autowired
     AttendanceService attendanceService;
-    
+
     @Autowired
     RouteService routeService;
 
@@ -103,10 +103,15 @@ public class AttendanceController {
      */
     @GetMapping
     public String index(
-        @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
-        Model model, HttpSession session
-    ) {
-        List<Attendance> attendances = attendanceService.findByCurrentMonth((EmployeeForm) session.getAttribute("employeeInfo"));
+            @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
+            Model model,
+            HttpSession session) {
+        if (session.getAttribute("employeeInfo") == null) {
+            return "redirect:/";
+        }
+
+        List<Attendance> attendances = attendanceService
+                .findByCurrentMonth((EmployeeForm) session.getAttribute("employeeInfo"));
 
         model.addAttribute("attendances", attendances);
 
@@ -122,13 +127,13 @@ public class AttendanceController {
      */
     @GetMapping("/search")
     public String search(
-        @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
-        Model model
-    ) {
-        List<Attendance> attendances = attendanceService.search(searchForm);
-        
+            @ModelAttribute("searchForm") AttendanceSearchForm searchForm,
+            Model model,
+            HttpSession session) {
+        List<Attendance> attendances = attendanceService.search(searchForm, session);
+
         model.addAttribute("attendances", attendances);
-        
+
         return "reference";
     }
 
@@ -138,6 +143,10 @@ public class AttendanceController {
         Model model,
         HttpSession session
     ) {
+        if (session.getAttribute("employeeInfo") == null) {
+            return "redirect:/";
+        }
+
         return "registration";
     }
 
@@ -151,12 +160,12 @@ public class AttendanceController {
      */
     @PostMapping
     public String create(
-        @ModelAttribute("attendance") @Validated AttendanceForm attendanceForm,
-        BindingResult bindingResult,
-        Model model,
-        HttpSession session
-    ) {
-        if (bindingResult.hasErrors()) return "registration";
+            @ModelAttribute("attendance") @Validated AttendanceForm attendanceForm,
+            BindingResult bindingResult,
+            Model model,
+            HttpSession session) {
+        if (bindingResult.hasErrors())
+            return "registration";
 
         EmployeeForm employeeForm = (EmployeeForm) session.getAttribute("employeeInfo");
         attendanceService.register(attendanceForm, employeeForm);
@@ -169,30 +178,28 @@ public class AttendanceController {
         response.setContentType("text/csv");
         response.setCharacterEncoding("UTF-8");
         response.setHeader("Content-Disposition", "attachment; filename=\"attendance.csv\"");
-        
+
         try (PrintWriter writer = response.getWriter()) {
             List<Attendance> attendances = attendanceService.findAllOrderByDateDesc();
 
             writer.println(
-                "社員名," +
-                "路線名," +
-                "日付," +
-                "遅刻理由," +
-                "遅刻時間," +
-                "遅延時間," +
-                "備考"
-            );
+                    "社員名," +
+                            "路線名," +
+                            "日付," +
+                            "遅刻理由," +
+                            "遅刻時間," +
+                            "遅延時間," +
+                            "備考");
 
             for (Attendance attendance : attendances) {
                 writer.println(
-                    attendance.getEmployee().getEmpLname() + attendance.getEmployee().getEmpFname() + "," +
-                    attendance.getRoute().getRouteName() + "," +
-                    attendance.getDate() + "," +
-                    attendance.getLateReasonLabel() + "," +
-                    attendance.getLateTime() + "," +
-                    attendance.getTrainDelayTime() + "," +
-                    Objects.toString(attendance.getNote(), "")
-                );
+                        attendance.getEmployee().getEmpLname() + attendance.getEmployee().getEmpFname() + "," +
+                                attendance.getRoute().getRouteName() + "," +
+                                attendance.getDate() + "," +
+                                attendance.getLateReasonLabel() + "," +
+                                attendance.getLateTime() + "," +
+                                attendance.getTrainDelayTime() + "," +
+                                Objects.toString(attendance.getNote(), ""));
             }
         } catch (Exception e) {
             // エラー処理は時間があれば実装
