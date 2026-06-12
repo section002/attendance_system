@@ -12,8 +12,10 @@ import jp.co.actec.attendance.form.EmployeeForm;
 import jp.co.actec.attendance.model.EmployeeMst;
 import jp.co.actec.attendance.model.EmployeePassword;
 import jp.co.actec.attendance.model.EmployeePasswordId;
+import jp.co.actec.attendance.model.TeamMst;
 import jp.co.actec.attendance.repository.EmployeeMstRepository;
 import jp.co.actec.attendance.repository.EmployeePasswordRepository;
+import jp.co.actec.attendance.repository.TeamRepository;
 
 @Service
 public class LoginService {
@@ -27,13 +29,15 @@ public class LoginService {
     @Autowired
     private EmployeePasswordRepository employeePasswordRepository;
 
+    @Autowired
+    private TeamRepository teamRepository;
+
     /*メールアドレス_ドメイン： */
     private final String MAIL_ADRESS_DOMAIN = "@ac-tec.co.jp";
 
     /*メールアドレス_最大文字数： */
     private final int MAX_LENGTH_MAIL_ADRESS = 100;  
 
-    // TODO:パスワードの最大文字数をいくつにするかは要検討
     /*パスワード_最大文字数：255 */
     private final int MAX_LENGTH_PASSWORD = 255;
 
@@ -45,7 +49,6 @@ public class LoginService {
      */
     public EmployeeMst authenticate(String mailAdress, String password) {
 
-        EmployeeMst employee = new EmployeeMst();
         // 必須チェック
         if (!StringUtils.hasText(mailAdress) || !StringUtils.hasText(password)) {
             // メールアドレスまたはパスワードが未入力の場合、認証失敗
@@ -93,7 +96,7 @@ public class LoginService {
 
 
     /**
-     * 社員情報をDBから取得する
+     * 社員情報をセットする
      * @param mailAdress メールアドレス
      * @return EmployeeForm 社員情報フォーム
      */
@@ -103,11 +106,16 @@ public class LoginService {
         employeeForm.setRole(employee.getRole());
         employeeForm.setEmpLname(employee.getEmpLname());
         employeeForm.setEmpFname(employee.getEmpFname());
-        employeeForm.setEmpLnameKana(employee.getEmpLnameKana());
-        employeeForm.setEmpFnameKana(employee.getEmpFnameKana());
         employeeForm.setMailAdress(employee.getMailAddress());
         employeeForm.setTeamId(employee.getTeam().toString());
         employeeForm.setTeamName(employee.getTeam().getTeamName());
+        employeeForm.setDepartmentId(employee.getDepartment().toString());
+
+        // ユニットID取得
+        TeamMst team = teamRepository.findById(employee.getTeam().toString()).orElse(null);
+        if (team != null) {
+            employeeForm.setUnitNo(team.getUnitNo().toString());
+        }
 
         return employeeForm;
     }
